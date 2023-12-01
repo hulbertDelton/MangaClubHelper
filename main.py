@@ -1,11 +1,13 @@
 import os, asyncio
-from typing import Any, Optional, Type
 import discord
 from discord.ext import commands
 from discord.ext.commands import cooldown, BucketType
 from discord.ext.commands.help import HelpCommand
 import manga_utils, manga_picking
     
+#TOKEN = os.getenv('DISCORD_TOKEN')
+TOKEN = os.getenv('DISCORD_TOKEN')
+
 intents = discord.Intents.default()
 intents.message_content = True
 intents.emojis = True
@@ -64,4 +66,4 @@ async def Help(ctx):
     helpstr = "Hello! I'm your Manga Club Assistant, Gokulisha. I can handle a bunch of manga-related tasks.\nHere's a list of my commands, that are all prefixed with '>'\n- Pick: You can ask me to $pick a random manga or $pick the next manga. In either case, I'll pull a list item from the spreadsheet and that will be the club's next selection!\n- ListMangaEntry: With this, you can ask me for a specific listing, or just say 'random' and I'll give you a manga back. I'll do my best to interpret what you're asking for, but try to be as exact as possible with the title.\n- ListCurrentManga: This will tell you what we're currently reading.\n\nOTHER FEATURES ARE COMING SOON"
     await ctx.send(helpstr)
 
-asyncio.run(secretary.run(manga_utils.TOKEN))
+asyncio.run(secretary.run(TOKEN))
