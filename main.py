@@ -11,7 +11,7 @@ intents = discord.Intents.default()
 intents.message_content = True
 intents.emojis = True
 
-secretary = commands.Bot(command_prefix='$', intents=intents)
+secretary = commands.Bot(command_prefix='>', intents=intents)
 
 @secretary.event
 async def on_message(message):
@@ -33,18 +33,19 @@ async def on_message(message):
 async def PickARandomManga(ctx, *, arg):
     print("picking manga")
     msg = manga_picking.ParseSelectionType()
-    await ctx.send("Okay! Give me just a minute here, I'm finishing up a Candy Crush Saga level.")
+    #await ctx.send("Okay! Give me just a minute here, I'm finishing up a Candy Crush Saga level.")
+    await ctx.send("Alright, I've set the club's new manga. Here's the details")
+    await ctx.send(msg)
 
 @secretary.command(name = 'schedule')
-async def ScheduleMeeting(ctx,date):
-    await ctx.send("Okay, I've added the " + date + " meeting to the books.")
-
+async def ScheduleMeeting(ctx, date, time):
+    #await ctx.send("Okay, I've added the " + date + " meeting to the books.")
     pass
 
 @secretary.command(name='cancel')
 async def CancelMeeting(ctx):
     await ctx.send("Got it. Next meeting has been cancelled.")
-    
+
     pass
 
 asyncio.run(secretary.run(TOKEN))
