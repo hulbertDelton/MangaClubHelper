@@ -1,11 +1,18 @@
 import os
 import discord
+import re
 
-greet_strings = ["hi","hello","hey","whats up","what's up","greet","howdy","hail","well met","sup","whatup","whadup","whaddup","yo","konichiwa","konnichiwa","こんにちは","kon ban wa","konbanwa","こんばんは", "ohaiyo","ohayo","ohaiyou","ohayou","おはよう","おはよ","osu","おす"]
+greet_strings = ["hi","hello","hey","whats up","what's up","greet","howdy","hail","well met","sup","whatup","whadup","whaddup","konichiwa","konnichiwa","こんにちは","kon ban wa","konbanwa","こんばんは", "ohaiyo","ohayo","ohaiyou","ohayou","おはよう","おはよ","osu","おす"]
 
 def IsGreeting(message:str) -> bool:
     if len(message) < 1:
         return False
+    
+    msgparts = re.split(" |,|!", message)
+    for m in msgparts:
+        if m.lower() == "yo":
+            return True
+    
     for greeting in greet_strings:
         if message.lower().find(greeting) != -1:
             return True
