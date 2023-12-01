@@ -13,7 +13,7 @@ def IsGreeting(message:str) -> bool:
     
     msgparts = re.split(" |,|!", message)
     for m in msgparts:
-        if m.lower() == "yo":
+        if m.lower() == "yo" or m == "ヨ" or m == "よ":
             return True
     
     for greeting in greet_strings:
