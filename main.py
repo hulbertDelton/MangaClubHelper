@@ -1,8 +1,8 @@
-import os
+import os, asyncio
 import discord
 from discord.ext import commands
+from discord.ext.commands import cooldown, BucketType
 import manga_utils, manga_picking
-import asyncio
 
 TOKEN = "MTE3OTk1NTY1NTgxODM1ODk4NQ.G6tS0X.m6J7o6gCq2WZ6QzQJa1B1rOIhcGroxnsA5g0MM"
 wave_emoji = ":wave:"
@@ -32,7 +32,19 @@ async def on_message(message):
 @secretary.command(name = 'pick')
 async def PickARandomManga(ctx, *, arg):
     print("picking manga")
-
+    msg = manga_picking.ParseSelectionType()
     await ctx.send("Okay! Give me just a minute here, I'm finishing up a Candy Crush Saga level.")
+
+@secretary.command(name = 'schedule')
+async def ScheduleMeeting(ctx,date):
+    await ctx.send("Okay, I've added the " + date + " meeting to the books.")
+
+    pass
+
+@secretary.command(name='cancel')
+async def CancelMeeting(ctx):
+    await ctx.send("Got it. Next meeting has been cancelled.")
+    
+    pass
 
 asyncio.run(secretary.run(TOKEN))
