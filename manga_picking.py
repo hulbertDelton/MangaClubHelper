@@ -1,12 +1,16 @@
 import manga_utils
-import os, csv, json, re, gspread, requests, random
+import re, gspread, random, json
+#import csv, requests, os
+from decouple import config
 from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
 
-filepath = os.path.dirname(__file__) + "\\credentials.json"
+creds = config('CREDENTIALS')
+json_keyfile = json.loads(creds)
 
 class MangaEntry:
     def __init__(self, listitem) -> None:
+        self.index = 0
         self.title = listitem['Manga Title']
         self.author = listitem['Author']
         self.available = listitem['Where its Available']
@@ -26,30 +30,46 @@ class MangaEntry:
         return strout
 
 def OAthRefresh():
-    creds = ServiceAccountCredentials.from_json_keyfile_name(filepath, manga_utils.SCOPE)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(json_keyfile, manga_utils.SCOPE)
     cli = gspread.authorize(creds)
     return cli
 
-def GetLiveMangaList():
+def RefreshMangaList() -> list[MangaEntry]:
     cli = OAthRefresh()
+
     manga_sheet = cli.open("MangaSubmissions").get_worksheet(0)
-    archive_sheet = cli.open("MangaSubmissions").get_worksheet(1)
-    mangalist = manga_sheet.get_all_records()
-    return mangalist
+    #archive_sheet = cli.open("MangaSubmissions").get_worksheet(1)
+
+    allmanga = manga_sheet.get_all_records()
+    listout : list[MangaEntry] = [MangaEntry(allmanga[0])]
+    listout.clear()
+    for manga in allmanga:
+        new_entry = MangaEntry(manga)
+        new_entry.index = allmanga.index(manga)
+        listout.append(new_entry)
+    return listout
+
+    #allarchives = archive_sheet.get_all_records()
+    #archive_list.Clear()
+    #for arch in allarchives:
+        #new_archive = MangaEntry(arch)
+        #new_archive.index = allarchives.index(arch)
+        #archive_list.Add(new_archive)
 
 
 def PickRandomManga():
-    mangalist = GetLiveMangaList()
-    rand_int = random.randrange(0,len(mangalist))
-    selection = mangalist[rand_int]
+    manga_list = RefreshMangaList()
+
+    rand_int = random.randrange(0,len(manga_list))
+    selection = manga_list[rand_int]
     return selection
 
 def PickNextManga() -> str:
-    mangalist = GetLiveMangaList()
-    selection = mangalist[2]
+    mangalist = RefreshMangaList()
+    selection = mangalist[1]
     return selection
 
-def ArchiveManga():
+def ArchiveManga(item:MangaEntry):
     pass
 
 def SetMangaToClubActive():
@@ -59,7 +79,7 @@ def ParseSelectionType(message:str):
     msg = message.lower().split()
     for m in msg:
         if m == "random":
-            return MangaEntry(PickRandomManga())
+            return PickRandomManga()
         elif m == "next":
-            return MangaEntry(PickNextManga())
+            return PickNextManga()
     pass
