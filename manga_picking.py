@@ -60,7 +60,7 @@ def RefreshMangaList() -> list[MangaEntry]:
 def PickRandomManga():
     manga_list = RefreshMangaList()
 
-    rand_int = random.randrange(0,len(manga_list))
+    rand_int = random.randrange(1,len(manga_list))
     selection = manga_list[rand_int]
     return selection
 
