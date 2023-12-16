@@ -1,0 +1,13 @@
+- Storing manga list in database... or somehow. JSON doc? -> PERSISTENT DATA that we won't lose even if (when) the bot goes down
+- Writing to the google sheet
+- Opening the Archive sheet (not the 0 index sheet)
+- Can we tell who the last editor of the Google Sheet was? would be cool to add a "refresh manga list" if the last editor was not the bot.
+- Removing a line from the Unread sheet
+- Functionality for setting active manga
+- Functionality for approximating spelling, matching user input with existing entries
+- Functionality for Adding scores
+- Functionality for Closing score polls (automatically OR manually?)
+- Functionality for reading and printing score data in various ways
+- Set up git repo in server so others can push changes to it
+
+- Functionality for adding new manga entries with prompts
