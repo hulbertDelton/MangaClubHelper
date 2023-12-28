@@ -1,4 +1,5 @@
 discord
+discord-py-interactions
 python-decouple
 oauth2client
 gspread
