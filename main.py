@@ -27,8 +27,10 @@ async def on_message(message):
         else:
             msg = "sorry, I don't understand that yet."
         await message.channel.send(msg)
-
+        return
+    
     await secretary.process_commands(message)
+    return
 
 @secretary.command(name = 'pick')
 async def PickARandomManga(ctx, *, arg):
@@ -38,32 +40,35 @@ async def PickARandomManga(ctx, *, arg):
     #await ctx.send("Okay! Give me just a minute here, I'm finishing up a Candy Crush Saga level.")
     await ctx.send("Alright, I've set the club's new manga. Here's the details:")
     await ctx.send(msg)
+    return
 
 @secretary.command(name = 'schedule')
 async def ScheduleMeeting(ctx, date, time):
     #await ctx.send("Okay, I've added the " + date + " meeting to the books.")
-    pass
+    return
 
-@secretary.command(name='cancel')
+@secretary.command(name = 'cancel')
 async def CancelMeeting(ctx):
     await ctx.send("Got it. Next meeting has been cancelled.")
+    return
 
-    pass
-
-@secretary.command(name='ListMangaEntry')
+@secretary.command(name = 'ListMangaEntry')
 async def ListEntry(ctx, listentry):
     entryint = int(listentry)
     secretary.current_manga = manga_picking.GetLiveMangaList()[entryint]
     await ctx.send("That would be " + secretary.current_manga['Manga Title'])
+    return
 
 @secretary.command()
 async def ListCurrentlyReading(ctx):
     await ctx.send("The club is currently reading this:")
     await ctx.send(secretary.current_manga)
+    return
 
 @secretary.command()
 async def Help(ctx):
     helpstr = "Hello! I'm your Manga Club Assistant, Gokulisha. I can handle a bunch of manga-related tasks.\nHere's a list of my commands, that are all prefixed with '>'\n- Pick: You can ask me to $pick a random manga or $pick the next manga. In either case, I'll pull a list item from the spreadsheet and that will be the club's next selection!\n- ListMangaEntry: With this, you can ask me for a specific listing, or just say 'random' and I'll give you a manga back. I'll do my best to interpret what you're asking for, but try to be as exact as possible with the title.\n- ListCurrentManga: This will tell you what we're currently reading.\n\nOTHER FEATURES ARE COMING SOON"
     await ctx.send(helpstr)
+    return
 
 asyncio.run(secretary.run(TOKEN))
